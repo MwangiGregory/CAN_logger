@@ -13,7 +13,8 @@ public:
 class CAN_Service : public Service
 {
 public:
-    CAN_Service(uint8_t spi_bus = VSPI, uint8_t cs_pin = MCP_CS);
+    // CAN_Service();
+    // CAN_Service(uint8_t spi_bus = VSPI, uint8_t cs_pin = MCP_CS);
     ErrorCode StartService();
     ErrorCode StopService();
     ErrorCode ReadMsg(CAN_message *can_msg);
@@ -21,7 +22,7 @@ public:
     static void PrintCanMessage(CAN_message *can_msg);
 
 private:
-    SPIClass CAN_SPI;
-    MCP_CAN CAN0;
+    SPIClass CAN_SPI{VSPI};
+    MCP_CAN CAN0{&CAN_SPI, MCP_CS};
 };
 #endif
