@@ -1,5 +1,4 @@
-#include "service.h"
-#include "application.h"
+#include "can_service.h"
 
 CAN_Service::CAN_Service(uint8_t spi_bus, uint8_t cs_pin)
     : CAN_SPI{spi_bus}, CAN0{&CAN_SPI, cs_pin}

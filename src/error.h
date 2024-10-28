@@ -2,7 +2,6 @@
 #define ERROR_H
 
 #include <Arduino.h>
-#include "application.h"
 
 enum class ErrCode
 {

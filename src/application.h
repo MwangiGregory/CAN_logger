@@ -11,7 +11,6 @@
 #include "SD.h"
 
 #include <TinyGPS++.h>
-
 #include "RTClib.h"
 
 #define BAUD_RATE 115200
@@ -35,19 +34,5 @@
 
 #define GPS_RX_PIN 16
 #define GPS_TX_PIN 17
-
-struct CAN_message
-{
-    uint32_t can_id = 0;
-    uint8_t can_data_length = 0;
-    bool extended = false;
-    bool rtr = false;
-    uint8_t can_data[8] = {0};
-};
-
-void CAN_init(MCP_CAN &can, SPIClass &can_spi);
-void SD_init(SDFS &sd, SPIClass &sd_spi);
-void RTC_init(RTC_DS3231 &rtc, TwoWire &wire);
-void GPS_init(HardwareSerial &gps_serial);
 
 #endif /* APPLICATION_H */
