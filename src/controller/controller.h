@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "../services/service.h"
+#include "../error.h"
 
 class ControllerState;
 

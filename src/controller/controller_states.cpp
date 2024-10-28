@@ -36,7 +36,10 @@ StatusCodes BootingState::start()
 
 StatusCodes BootingState::run()
 {
-    can_system->start_service();
+    Error error = can_system->start_service();
+    if (error.error_code != ErrCode::NONE)
+        ErrorHandler::handle_error(error);
+
     return StatusCodes::STATE_OK;
 }
 
