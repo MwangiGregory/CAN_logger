@@ -36,17 +36,7 @@
 #define GPS_RX_PIN 16
 #define GPS_TX_PIN 17
 
-enum class ErrorCode
-{
-    NONE,
-    CAN_SERVICE_FAIL,
-    CAN_NO_MSG,
-    CAN_MSG_SEND_FAIL,
-    CAN_MSG_SEND_SUCCESS,
-    GPS_SERVICE_FAIL,
-    RTC_SERVICE_FAIL,
-    SD_SERVICE_FAIL
-};
+#define dprint(s) Serial.println(s)
 
 struct CAN_message
 {
