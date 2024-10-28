@@ -10,11 +10,9 @@ void setup()
   controller = Controller::get_instance();
   controller->set_controller_state(BootingState::get_state_instance());
   controller->start();
-  controller->run();
 }
 
 void loop()
 {
-  // controller->run();
-  delay(1000U);
+  controller->run();
 }

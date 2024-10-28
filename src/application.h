@@ -36,8 +36,6 @@
 #define GPS_RX_PIN 16
 #define GPS_TX_PIN 17
 
-#define dprint(s) Serial.println(s)
-
 struct CAN_message
 {
     uint32_t can_id = 0;
