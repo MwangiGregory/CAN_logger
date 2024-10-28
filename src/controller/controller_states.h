@@ -1,8 +1,9 @@
 #ifndef CONTROLLER_STATE_H
 #define CONTROLLER_STATE_H
 
-#include "../services/service.h"
 #include "controller/controller.h"
+#include "../services/can_service.h"
+#include "../services/rtc_service.h"
 
 enum class StatusCodes
 {
@@ -11,6 +12,8 @@ enum class StatusCodes
     STATE_ERROR, // error condition
     STATE_CAN_ERROR
 };
+
+/* ==================== ControllerState Class ==================== */
 
 class ControllerState
 {
@@ -34,20 +37,7 @@ protected:
     const char *state_name = "";
 };
 
-class MockState : public ControllerState
-{
-private:
-    MockState()
-    {
-        this->state_name = "MockState";
-    }
-
-public:
-    StatusCodes start() override;
-    StatusCodes run() override;
-    StatusCodes stop() override;
-    static MockState *get_state_instance();
-};
+/* ==================== BootingState Class ==================== */
 
 class BootingState : public ControllerState
 {
@@ -56,6 +46,7 @@ private:
     {
         this->state_name = "BootingState";
         this->can_system = CAN_Service::get_service_instance();
+        this->rtc_system = RTC_service::get_service_instance();
     }
 
 public:
@@ -66,6 +57,73 @@ public:
 
 private:
     CAN_Service *can_system = nullptr;
+    RTC_service *rtc_system = nullptr;
+};
+
+/* ==================== RunningState Class ==================== */
+
+class RunningState : public ControllerState
+{
+private:
+    RunningState()
+    {
+        this->state_name = "RunningState";
+        this->can_system = CAN_Service::get_service_instance();
+    }
+
+public:
+    StatusCodes start() override;
+    StatusCodes run() override;
+    StatusCodes stop() override;
+    static RunningState *get_state_instance();
+
+private:
+    CAN_Service *can_system = nullptr;
+    RTC_service *rtc_system = nullptr;
+};
+
+/* ==================== ErrorState Class ==================== */
+
+class ErrorState : public ControllerState
+{
+private:
+    ErrorState()
+    {
+        this->state_name = "ErrorState";
+        this->can_system = CAN_Service::get_service_instance();
+    }
+
+public:
+    StatusCodes start() override;
+    StatusCodes run() override;
+    StatusCodes stop() override;
+    static ErrorState *get_state_instance();
+
+private:
+    CAN_Service *can_system = nullptr;
+    RTC_service *rtc_system = nullptr;
+};
+
+/* ==================== ShutdownState Class ==================== */
+
+class ShutdownState : public ControllerState
+{
+private:
+    ShutdownState()
+    {
+        this->state_name = "ShutdownState";
+        this->can_system = CAN_Service::get_service_instance();
+    }
+
+public:
+    StatusCodes start() override;
+    StatusCodes run() override;
+    StatusCodes stop() override;
+    static ShutdownState *get_state_instance();
+
+private:
+    CAN_Service *can_system = nullptr;
+    RTC_service *rtc_system = nullptr;
 };
 
 #endif /* CONTROLLER_STATE_H */
