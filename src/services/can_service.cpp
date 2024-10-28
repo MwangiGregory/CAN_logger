@@ -5,7 +5,7 @@ CAN_Service::CAN_Service(uint8_t spi_bus, uint8_t cs_pin)
 {
 }
 
-ErrorCode CAN_Service::StartService()
+ErrorCode CAN_Service::start_service()
 {
     CAN_SPI.begin(MCP_SCK, MCP_MISO, MCP_MOSI, MCP_CS);
     if (CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
@@ -18,13 +18,13 @@ ErrorCode CAN_Service::StartService()
         return ErrorCode::CAN_SERVICE_FAIL;
 }
 
-ErrorCode CAN_Service::StopService()
+ErrorCode CAN_Service::stop_service()
 {
     CAN_SPI.end();
     return ErrorCode::NONE;
 }
 
-ErrorCode CAN_Service::ReadMsg(CAN_message *can_msg)
+ErrorCode CAN_Service::read_can_message(CAN_message *can_msg)
 {
     unsigned long can_id;
     bool extended;
@@ -65,7 +65,7 @@ ErrorCode CAN_Service::ReadMsg(CAN_message *can_msg)
     return ErrorCode::CAN_NO_MSG;
 }
 
-ErrorCode CAN_Service::SendMsg(CAN_message *can_msg)
+ErrorCode CAN_Service::send_can_message(CAN_message *can_msg)
 {
     digitalWrite(MCP_CS, LOW);
 
@@ -76,7 +76,13 @@ ErrorCode CAN_Service::SendMsg(CAN_message *can_msg)
         return ErrorCode::CAN_MSG_SEND_FAIL;
 }
 
-void CAN_Service::PrintCanMessage(CAN_message *can_msg)
+CAN_Service *CAN_Service::get_service_instance()
+{
+    static CAN_Service can_system;
+    return &can_system;
+}
+
+void CAN_Service::pretty_print_can_message(CAN_message *can_msg)
 {
     char msgString[128] = {0};
 
