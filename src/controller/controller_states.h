@@ -84,6 +84,9 @@ public:
     StatusCodes run() override;
     StatusCodes stop() override;
     static RunningState *get_state_instance();
+
+    // private:
+    //     CAN_message msg;
 };
 
 /* ==================== ErrorState Class ==================== */

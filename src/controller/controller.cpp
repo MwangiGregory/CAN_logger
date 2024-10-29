@@ -19,7 +19,7 @@ ControllerErrorCode Controller::stop()
     return ControllerErrorCode::CONTROLLER_OK;
 }
 
-void Controller::set_controller_state(ControllerState* new_state)
+void Controller::set_controller_state(ControllerState *new_state)
 {
     if (new_state == nullptr)
     {
@@ -32,8 +32,8 @@ void Controller::set_controller_state(ControllerState* new_state)
     return;
 }
 
-Controller* Controller::get_instance()
+Controller *Controller::get_instance()
 {
-    static Controller controller{ };
+    static Controller controller{};
     return &controller;
 }
