@@ -4,6 +4,7 @@
 #include "controller/controller.h"
 #include "../services/can_service.h"
 #include "../services/rtc_service.h"
+#include "../services/gps_service.h"
 #include <array>
 
 enum class StatusCodes
@@ -45,6 +46,7 @@ protected:
     // and then create the service in the BootingState::create_services() method
     static CAN_Service *can_system;
     static RTC_service *rtc_system;
+    static GPS_Service *gps_system;
 };
 
 /* ==================== BootingState Class ==================== */
@@ -82,9 +84,6 @@ public:
     StatusCodes run() override;
     StatusCodes stop() override;
     static RunningState *get_state_instance();
-
-    // private:
-    //     CAN_message msg;
 };
 
 /* ==================== ErrorState Class ==================== */
