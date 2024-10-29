@@ -1,4 +1,5 @@
 #include "controller_states.h"
+#define UPDATE_INTERVAL 1000U
 
 StatusCodes RunningState::start()
 {
@@ -8,18 +9,30 @@ StatusCodes RunningState::start()
 
 StatusCodes RunningState::run()
 {
+    static unsigned long prev_execute_time = millis();
     if (!started)
         start();
 
-    Serial.print(rtc_system->get_timestamp().c_str());
-    Serial.print(" ");
+    gps_system->feed_gps();
 
-    CAN_message msg;
-    can_system->read_can_message(&msg);
-    CAN_Service::pretty_print_can_message(&msg);
-    Serial.println();
+    if (millis() - prev_execute_time > UPDATE_INTERVAL)
+    {
+        String rtc_res = rtc_system->get_timestamp();
+        Serial.print(rtc_res.c_str());
+        Serial.print(" ");
 
-    delay(1000U);
+        String gps_loc = gps_system->get_location_str();
+        Serial.print(gps_loc.c_str());
+        Serial.print(" ");
+
+        CAN_message msg;
+        can_system->read_can_message(&msg);
+        CAN_Service::pretty_print_can_message(&msg);
+        Serial.println();
+
+        prev_execute_time = millis();
+    }
+
     return StatusCodes::STATE_OK;
 }
 
